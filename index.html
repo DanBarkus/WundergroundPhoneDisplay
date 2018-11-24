@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<head>
+  <title>Tolland Wunderground API</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+    }
+    .reading {
+      font-size: 10vw;
+    }
+    #time {
+      font-size: 20vw;
+      text-align: center;
+    }
+    #temperature {
+        display: inline-block;
+    position: absolute;
+    left: 8%;
+    top: 50%;
+    }
+    #humidity {
+        position: absolute;
+        left: 8%;
+        top: 70%;
+    }
+    #wind {
+      width: 25vw;
+      height: 25vw;
+      border-radius: 20vw;
+      border: solid 8px white;
+      margin: auto;
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translate(-50%, -50%);
+    }
+    #windSpeed {
+      width: 25vw;
+      position: relative;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 10vw;
+      top: -12.5vw;
+      transform: translate(0px, -50%);
+    }
+    #windDirection {
+      width: 25vw;
+      height: 25vw;
+      position: relative;
+      top: 0px;
+      right: 0px;
+    }
+    .arrow-down {
+      width: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-top: 60px solid red;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="holder">
+    <div id="time" class="reading"></div>
+    <div id="readings">
+      <div id="temperature" class="reading"></div>
+      <div id="wind">
+        <div id="windDirection" class="reading">
+          <div class="arrow-down"></div>
+        </div>
+        <div id="windSpeed" class="reading"></div>
+        <!-- <div id="windSpeedUnits">mph</div> -->
+      </div>
+      <div id="humidity" class="reading"></div>
+    </div>
+  </div>
+</body>
+<script>
+  var api =
+    "https://stationdata.wunderground.com/cgi-bin/stationlookup?station=KCTTOLLA12&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
+  var d = new Date(Date.now());
+
+  $(document).ready(function() {
+    readingsCall(api);
+  });
+
+  function readingsCall(api) {
+    d = new Date(Date.now());
+    console.log(typeof d);
+    $.get(api + d, function(data, status) {
+      data = data.split("(")[1];
+      data = data.split(")")[0];
+      data = JSON.parse(data);
+      console.log(data);
+      updateReadings(data, d);
+    });
+  }
+
+  setInterval(function() {
+    readingsCall(api);
+  }, 10000);
+
+  function updateReadings(response, date) {
+    dat = response.stations.KCTTOLLA12;
+    $("#temperature").text(dat.temperature+"°");
+    $("#humidity").text(dat.humidity+"%");
+    $("#windSpeed").text(dat.wind_speed);
+    $("#windDirection").css(
+      "transform",
+      "rotate(" + dat.wind_dir_degrees + "deg)"
+    );
+    var hours = date.getHours();
+    if (hours > 12) {
+      hours = hours - 12;
+    }
+    var minutes = String(date.getMinutes()).padStart(2, "0");
+    console.log(hours + ":" + minutes);
+    $("#time").text(hours + ":" + minutes);
+  }
+</script>
