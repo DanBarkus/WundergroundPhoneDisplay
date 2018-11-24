@@ -9,22 +9,22 @@
       color: white;
     }
     .reading {
-      font-size: 10vw;
+      font-size: 8em;
     }
     #time {
-      font-size: 20vw;
+      font-size: 18em;
       text-align: center;
     }
     #temperature {
-        display: inline-block;
-    position: absolute;
-    left: 8%;
-    top: 50%;
+      display: inline-block;
+      position: absolute;
+      left: 8%;
+      top: 50%;
     }
     #humidity {
-        position: absolute;
-        left: 8%;
-        top: 70%;
+      position: absolute;
+      left: 8%;
+      top: 70%;
     }
     #wind {
       width: 25vw;
@@ -42,7 +42,6 @@
       position: relative;
       text-align: center;
       vertical-align: middle;
-      font-size: 10vw;
       top: -12.5vw;
       transform: translate(0px, -50%);
     }
@@ -80,10 +79,11 @@
   </div>
 </body>
 <script>
-
-    var station = "KCTTOLLA12"
+  var station = "KCTTOLLA12";
   var api =
-    "https://stationdata.wunderground.com/cgi-bin/stationlookup?station="+station+"&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
+    "https://stationdata.wunderground.com/cgi-bin/stationlookup?station=" +
+    station +
+    "&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
   var d = new Date(Date.now());
 
   $(document).ready(function() {
@@ -106,8 +106,8 @@
 
   function updateReadings(response, date) {
     dat = response.stations[station];
-    $("#temperature").text(dat.temperature+"°");
-    $("#humidity").text(dat.humidity+"%");
+    $("#temperature").text(dat.temperature + "°");
+    $("#humidity").text(dat.humidity + "%");
     $("#windSpeed").text(dat.wind_speed);
     $("#windDirection").css(
       "transform",
