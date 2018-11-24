@@ -81,7 +81,7 @@
 </body>
 <script>
 
-    var station = "KCTTOLLA10"
+    var station = "KCTTOLLA12"
   var api =
     "https://stationdata.wunderground.com/cgi-bin/stationlookup?station="+station+"&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
   var d = new Date(Date.now());
@@ -92,7 +92,6 @@
 
   function readingsCall(api) {
     d = new Date(Date.now());
-    console.log(typeof d);
     $.get(api + d, function(data, status) {
       data = data.split("(")[1];
       data = data.split(")")[0];
