@@ -80,8 +80,10 @@
   </div>
 </body>
 <script>
+
+    var station = "KCTTOLLA10"
   var api =
-    "https://stationdata.wunderground.com/cgi-bin/stationlookup?station=KCTTOLLA12&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
+    "https://stationdata.wunderground.com/cgi-bin/stationlookup?station="+station+"&units=both&v=2.0&format=json&callback=jQuery17209849936267553157_1543003818644&_=";
   var d = new Date(Date.now());
 
   $(document).ready(function() {
@@ -95,7 +97,6 @@
       data = data.split("(")[1];
       data = data.split(")")[0];
       data = JSON.parse(data);
-      console.log(data);
       updateReadings(data, d);
     });
   }
@@ -105,7 +106,7 @@
   }, 10000);
 
   function updateReadings(response, date) {
-    dat = response.stations.KCTTOLLA12;
+    dat = response.stations[station];
     $("#temperature").text(dat.temperature+"°");
     $("#humidity").text(dat.humidity+"%");
     $("#windSpeed").text(dat.wind_speed);
@@ -118,7 +119,6 @@
       hours = hours - 12;
     }
     var minutes = String(date.getMinutes()).padStart(2, "0");
-    console.log(hours + ":" + minutes);
     $("#time").text(hours + ":" + minutes);
   }
 </script>
